@@ -46,7 +46,7 @@
     if (!navigator.serviceWorker.controller || dismissedWorker === worker) return;
     document.getElementById('app-settings')?.close();
     status('Новая версия готова к установке.');
-    noticeBar('Вышло обновление HRL. Оно уже загружено. Обновить приложение сейчас?', [
+    noticeBar('Вышло обновление ИРЛ. Оно уже загружено. Обновить приложение сейчас?', [
       {title:'Обновить', primary:true, click:() => {
         // Reloads can discard an unfinished note draft even though saved notes survive.
         if (!window.confirm('Обновление перезагрузит страницу. Сохраните незаписанные заметки перед продолжением. Обновить сейчас?')) return;
@@ -99,7 +99,7 @@
         await event.prompt();
         try { await event.userChoice; } catch (_) {}
       } else if (isIOS) {
-        noticeBar('Чтобы установить HRL: откройте меню «Поделиться» в браузере и выберите «На экран Домой».', [
+        noticeBar('Чтобы установить ИРЛ: откройте меню «Поделиться» в браузере и выберите «На экран Домой».', [
           {title:'Понятно', click:hideNotice}
         ]);
       } else {
@@ -117,7 +117,7 @@
   window.addEventListener('appinstalled', () => {
     installEvent = null;
     if (installButton) installButton.hidden = true;
-    status('HRL установлено на устройство.');
+    status('ИРЛ установлено на устройство.');
   });
   if (checkButton) checkButton.addEventListener('click', () => checkForUpdates(true));
 

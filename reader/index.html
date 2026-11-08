@@ -1,10 +1,11 @@
 <!doctype html><html lang="ru"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
-<title>Беседы о русской культуре · HRL</title>
+<title>Беседы о русской культуре · ИРЛ</title>
 <meta name="theme-color" content="#382819">
 <meta name="description" content="Электронная литературная библиотека с заметками, закладками и чтением офлайн.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Полка">
+<meta name="apple-mobile-web-app-title" content="ИРЛ">
+<meta name="application-name" content="ИРЛ">
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/icon-192.png">
@@ -1246,7 +1247,7 @@ body.sch-open #pop { z-index: 80; }
 <div id="home" class="view scroll" lang="ru">
   <div class="wrap">
     <header class="top-nav">
-      <div class="brand"><span class="gb-seal" aria-hidden="true"><span class="emb emb-book"></span></span><h1>Полка</h1><span class="sub">XVII–XVIII века · Гоцци · Еврипид · Белый · теория</span></div>
+      <div class="brand"><span class="gb-seal" aria-hidden="true"><span class="emb emb-book"></span></span><h1>ИРЛ</h1><span class="sub">Дополнительная литература</span></div>
       <nav class="tabs" aria-label="Разделы">
         <button class="tab on" type="button" data-go="home">Книги</button>
         <button class="tab" type="button" data-go="notes">Заметки <span class="cnt" data-notes-count>0</span></button>
@@ -1275,7 +1276,7 @@ body.sch-open #pop { z-index: 80; }
 <div id="notes" class="view scroll" lang="ru" hidden>
   <div class="wrap">
     <header class="top-nav">
-      <div class="brand"><span class="gb-seal" aria-hidden="true"><span class="emb emb-book"></span></span><h1>Полка</h1><span class="sub">XVII–XVIII века · Гоцци · Еврипид · Белый · теория</span></div>
+      <div class="brand"><span class="gb-seal" aria-hidden="true"><span class="emb emb-book"></span></span><h1>ИРЛ</h1><span class="sub">Заметки к дополнительной литературе</span></div>
       <nav class="tabs" aria-label="Разделы">
         <button class="tab" type="button" data-go="home">Книги</button>
         <button class="tab on" type="button" data-go="notes">Заметки <span class="cnt" data-notes-count>0</span></button>
@@ -1310,7 +1311,7 @@ body.sch-open #pop { z-index: 80; }
 <div id="gen" class="view scroll" lang="ru" hidden>
   <div class="wrap gen-wrap">
     <header class="top-nav">
-      <div class="brand"><h1>Полка</h1><span class="sub">Еврипид · родословные героев</span></div>
+      <div class="brand"><h1>ИРЛ</h1><span class="sub">Родословные героев</span></div>
       <nav class="tabs" aria-label="Разделы">
         <button class="tab" type="button" data-go="home">Книги</button>
         <button class="tab" type="button" data-go="notes">Заметки <span class="cnt" data-notes-count>0</span></button>
@@ -1332,8 +1333,8 @@ body.sch-open #pop { z-index: 80; }
 
 <div id="reader" class="view" lang="ru" hidden>
   <header class="rbar top">
-    <a class="ib" href="../" aria-label="К учебным материалам">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><span class="lbl-wide">HRL</span>
+    <a class="ib" href="../#reading" aria-label="К дополнительной литературе">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><span class="lbl-wide">ИРЛ</span>
     </a>
     <button class="ib" type="button" id="btn-toc" aria-label="Содержание">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span class="lbl-wide">Содержание</span>
@@ -1624,13 +1625,6 @@ const S = (() => {
   let s = {};
   try { s = JSON.parse(localStorage.getItem(LS) || '{}') || {}; } catch (e) {}
   s.progress = s.progress || {}; s.notes = s.notes || {}; s.del = s.del || []; s.cm = s.cm || {}; s.read = s.read || {};
-  try { // carry over the position from the earlier single-book Phèdre reader
-    const old = JSON.parse(localStorage.getItem('hrl-no-legacy-import') || 'null');
-    if (old && Number.isInteger(old.anchor) && old.anchor >= 0 && !s.progress.phedre) {
-      s.progress.phedre = { a: old.anchor, r: old.anchor, pct: 0, t: 1 };
-      if (old.fs && !s.fs) s.fs = old.fs;
-    }
-  } catch (e) {}
   return s;
 })();
 function saveLocal() { try { localStorage.setItem(LS, JSON.stringify(S)); } catch (e) {} }
@@ -1810,7 +1804,7 @@ function noteContext(n) {
 }
 function cmPrompt(n) {
   const m = META[n.book] || { title: 'без книги', author: '', tr: '' }, ctx = noteContext(n), prev = cmItems(n.id);
-  return `Ты — Claude, филолог-комментатор в читалке «Полка». Читатель — студент-филолог 2-го курса. Он оставил заметку к месту в книге; ответь ему комментарием на полях.
+  return `Ты — филолог-комментатор в читалке ИРЛ. Читатель — студент-филолог 2-го курса. Он оставил заметку к месту в книге; ответь ему комментарием на полях.
 
 Правила:
 - Если заметка — вопрос или просьба («что это», «кто», «поясни», «а в оригинале»), ответь по существу и точно.
@@ -2290,7 +2284,7 @@ $('#nchips').addEventListener('click', e => { const c = e.target.closest('[data-
 $('#nsearch').addEventListener('input', e => { nQuery = e.target.value; renderNotes(); });
 $('#nnew').addEventListener('click', () => {
   const sel = $('#nbook');
-  sel.innerHTML = `<optgroup label="Полка">${ORDER.map(id => `<option value="${id}">${esc(META[id].title)}</option>`).join('')}</optgroup>`
+  sel.innerHTML = `<optgroup label="ИРЛ">${ORDER.map(id => `<option value="${id}">${esc(META[id].title)}</option>`).join('')}</optgroup>`
     + (XORDER.length ? `<optgroup label="XX век">${XORDER.map(id => `<option value="${id}">${esc(META[id].title)}</option>`).join('')}</optgroup>` : '')
     + (EORDER.length ? `<optgroup label="Еврипид">${EORDER.concat(BOOKS.e_about ? ['e_about'] : []).map(id => `<option value="${id}">${esc(META[id].short)}</option>`).join('')}</optgroup>` : '')
     + (TORDER.length ? `<optgroup label="Теория">${TORDER.map(id => `<option value="${id}">${esc(META[id].short)}</option>`).join('')}</optgroup>` : '')
@@ -2307,7 +2301,7 @@ $('#nsave').addEventListener('click', () => {
 $('#ncopy').addEventListener('click', () => { const t = allNotesText(false); if (!t) { toast('Пока нечего копировать'); return; } copyText(t); });
 $('#ndl').addEventListener('click', async () => {
   const t = allNotesText(true); if (!t || !R.downloads) { toast('Пока нечего сохранять'); return; }
-  try { await R.downloads.save({ filename: 'Заметки — Полка.md', data: '# Заметки\n\n' + t + '\n' }); }
+  try { await R.downloads.save({ filename: 'Заметки — ИРЛ.md', data: '# Заметки\n\n' + t + '\n' }); }
   catch (e) { if (e && e.code !== 'declined') toast('Не удалось сохранить файл'); }
 });
 $('#nlist').addEventListener('click', e => {
@@ -3741,7 +3735,7 @@ setSync(false);
 if (!location.hash) history.replaceState(null, '', '#lotman');
 route();
 // File transfer is local only. Do not initialise the legacy cloud integration.
-window.PolkaNotesTransfer.setup({
+window.IRLNotesTransfer.setup({
   getState: () => S,
   books: Object.fromEntries(Object.entries(BOOKS).map(([id, bk]) => [id, bk.b.length])),
   hasDraft: () => !$('#nform').hidden || editId !== null || !$('#editor').hidden,

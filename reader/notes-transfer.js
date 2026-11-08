@@ -2,11 +2,12 @@
 (function (root, factory) {
   'use strict';
   if (typeof module === 'object' && module.exports) module.exports = factory();
-  else root.PolkaNotesTransfer = factory();
+  else root.IRLNotesTransfer = factory();
 })(typeof window === 'undefined' ? globalThis : window, function () {
   'use strict';
-  const STORAGE_KEY = 'polka-reader-v1';
+  const STORAGE_KEY = 'hrl-lotman-reader-v1';
   const BACKUP_KEY = STORAGE_KEY + '-notes-backup';
+  const FORMAT = 'irl-lotman-notes';
   const MAX_BYTES = 5 * 1024 * 1024;
   const MAX_NOTES = 10000;
   const CONTENT_FIELDS = ['book', 'b0', 's', 'b1', 'e', 'quote', 'text', 'label', 'pct'];
@@ -63,14 +64,14 @@
     let data;
     try { data = JSON.parse(text.replace(/^\uFEFF/, '')); }
     catch (_) { fail('Не удалось прочитать JSON. Выберите файл, созданный кнопкой «Выгрузить заметки».'); }
-    if (!record(data) || data.format !== 'polka-notes' || data.version !== 1 ||
+    if (!record(data) || ![FORMAT, 'polka-notes'].includes(data.format) || data.version !== 1 ||
         typeof data.exportedAt !== 'string' || !Number.isFinite(Date.parse(data.exportedAt))) {
-      fail('Неподдерживаемый формат или версия файла. Нужна резервная копия «Полки» в формате JSON.');
+      fail('Неподдерживаемый формат или версия файла. Нужна резервная копия заметок читалки ИРЛ в формате JSON.');
     }
     return validateNotes(data.notes, books);
   }
   function serializeBackup(notes, books) {
-    const text = JSON.stringify({ format: 'polka-notes', version: 1,
+    const text = JSON.stringify({ format: FORMAT, version: 1,
       exportedAt: new Date().toISOString(), notes: validateNotes(notes, books) }, null, 2) + '\n';
     if (byteLength(text) > MAX_BYTES) fail('Резервная копия превышает 5 МБ. Загрузка отменена.');
     return text;
@@ -161,7 +162,7 @@
     let directory = null;
     function folderPreference(value, write = false) {
       return new Promise((resolve, reject) => {
-        const request = indexedDB.open('polka-file-settings-v1', 1);
+        const request = indexedDB.open('irl-lotman-file-settings-v1', 1);
         request.onupgradeneeded = () => request.result.createObjectStore('preferences');
         request.onerror = () => reject(request.error);
         request.onblocked = () => reject(new Error('Хранилище настроек занято'));
@@ -192,7 +193,7 @@
     folderChoose.addEventListener('click', async () => {
       folderChoose.disabled = true;
       try {
-        const handle = await window.showDirectoryPicker({ id:'polka-notes', mode:'readwrite', ...(directory ? {startIn:directory} : {}) });
+        const handle = await window.showDirectoryPicker({ id:'irl-lotman-notes', mode:'readwrite', ...(directory ? {startIn:directory} : {}) });
         await folderReady;
         await folderPreference(handle, true);
         directory = handle; updateFolder();
@@ -246,14 +247,14 @@
     }
     exportButton.addEventListener('click', async () => {
       try {
-        message(await download(serializeBackup(storedNotes(getState(), books), books), 'polka-notes-'));
+        message(await download(serializeBackup(storedNotes(getState(), books), books), 'irl-lotman-notes-'));
       } catch (err) { message(errorMessage(err)); }
     });
     recoveryButton.addEventListener('click', async () => {
       try {
         const text = window.localStorage.getItem(BACKUP_KEY);
         parseBackup(text, books);
-        message((await download(text, 'polka-notes-before-import-')) + ' Для восстановления выберите этот файл через «Загрузить заметки».');
+        message((await download(text, 'irl-lotman-notes-before-import-')) + ' Для восстановления выберите этот файл через «Загрузить заметки».');
       } catch (err) { message(errorMessage(err)); }
     });
     importButton.addEventListener('click', () => {

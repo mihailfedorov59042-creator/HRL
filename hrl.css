@@ -1,11 +1,17 @@
 .hrl-nav{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:18px;margin-block:4px 22px}
+.hrl-sections{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.hrl-sections a{display:flex;align-items:center;padding:11px 14px;border:1px solid var(--rule);background:var(--sheet);color:var(--ink);font:600 1.06rem var(--ui);line-height:1.25;text-decoration:none}
+.hrl-sections a[aria-current="page"]{border-color:var(--cinnabar);box-shadow:inset 0 -2px var(--cinnabar);color:var(--cinnabar)}
+.hrl-sections a:hover{border-color:var(--cinnabar)}
+.hrl-section-heading{margin-block:1.25rem .65rem}
+.hrl-section-heading h2{margin:.15rem 0 0}
 .hrl-book{display:grid;gap:4px;padding:15px 18px;background:var(--sheet);border:1px solid var(--rule);text-decoration:none;color:var(--ink)}
 .hrl-book:hover{border-color:var(--cinnabar)}
 .hrl-book strong{font:700 1.5rem var(--display)}
 .hrl-book span:last-child{color:var(--cinnabar)}
 .hrl-app{max-width:270px;padding:10px 14px;border:1px solid var(--rule)}
 .hrl-app summary{cursor:pointer}.hrl-app p{margin-block:8px}
-@media(max-width:620px){.hrl-nav{grid-template-columns:1fr}.hrl-app{max-width:none}}
+@media(max-width:620px){.hrl-nav{grid-template-columns:1fr;gap:8px}.hrl-app{max-width:none}.hrl-sections a{padding:10px}}
 .hrl-search{margin-block:0 14px}.hrl-search form{max-width:640px}.hrl-search label{font-size:.9rem;color:var(--ink-2)}
 .hrl-search form div{display:flex;gap:8px}.hrl-search input{flex:1;min-width:0;background:var(--sheet);color:var(--ink);border:1px solid var(--rule);font:inherit;padding:7px 10px}
 #hrl-search-results:not(:empty){max-height:50vh;overflow:auto;margin-top:10px;background:var(--sheet);border:1px solid var(--rule);padding:10px 14px}
@@ -19,14 +25,21 @@
 .hrl-poem-link{color:var(--cinnabar);text-underline-offset:.18em}
 .hrl-poem-link.fbtn{text-decoration:none}
 .hrl-poem-link[aria-current="page"]{background:var(--bar-tint);border-color:var(--bar);color:var(--ink)}
-.hrl-author-nav{align-items:center}
+.hrl-source-list{list-style:none;margin:1rem 0;padding:0;border-top:1px solid var(--rule);max-width:75ch}
+.hrl-source-list a{display:flex;align-items:baseline;flex-wrap:wrap;gap:.1rem .8rem;padding:.65rem 0;border-bottom:1px solid var(--rule);text-decoration:none;color:var(--ink)}
+.hrl-source-list a span{color:var(--ink-2)}
+.hrl-source-list a:hover span{text-decoration:underline;color:var(--cinnabar)}
+.hrl-source-head{display:flex;gap:6px;flex-wrap:wrap;margin-block:1rem;padding-block:2px}
+.hrl-source-head .fbtn[aria-current="page"]{background:var(--cinnabar-wash);border-color:var(--cinnabar)}
+#source-detail .points p{margin-block:.2rem .6rem}
+#sources,#theses details{scroll-margin-top:64px}
 .hrl-triple .crow{grid-template-columns:minmax(105px,.65fr) repeat(3,minmax(0,1fr))}
 .hrl-triple .cell p{margin:0 0 .35em}
 .hrl-pair,.hrl-edition{margin-block:1.2rem}
 .hrl-thesis-source{max-width:76ch}
 .hrl-thesis-source details{margin-block:.65rem}
 .hrl-thesis-source details p{margin-block:.6em}
-#barat-poem-view,#poem-view{scroll-margin-top:64px}
+#poem-view{scroll-margin-top:64px}
 .hrl-note-float{position:fixed;z-index:25;box-shadow:0 2px 10px #0003}
 .hrl-note-float[hidden]{display:none}
 .hrl-note-list{list-style:none;margin:.5rem 0;padding:0}

@@ -21,7 +21,7 @@
     return (index > 55 ? '…' : '') + text.slice(Math.max(0, index - 55), index + key.length + 110) + (index + key.length + 110 < text.length ? '…' : '');
   }
 
-  function add(label, excerpt, href, open) {
+  function add(label, excerpt, href) {
     const link = document.createElement('a');
     link.className = 'hrl-result';
     link.href = href;
@@ -30,7 +30,6 @@
     title.textContent = label;
     text.textContent = excerpt;
     link.append(title, text);
-    if (open) link.addEventListener('click', event => { event.preventDefault(); open(); });
     result.append(link);
   }
 
@@ -45,16 +44,16 @@
       const excerpt = hit(poem.text, key);
       if (excerpt) { add(poem.title, excerpt, poem.href); count++; }
     }
-    for (const thesis of window.hrlStudy.theses) {
-      const excerpt = hit(thesis.text, key) || hit(thesis.title, key);
-      if (excerpt) { add(thesis.title, excerpt, '#baratynsky/theses'); count++; }
+    for (const record of [...window.hrlStudy.theses, ...window.hrlStudy.sources]) {
+      const excerpt = hit(record.text, key) || hit(record.title, key);
+      if (excerpt) { add(record.title, excerpt, record.href); count++; }
     }
-    for (const panel of document.querySelectorAll('main > .panel:not(#poems, #baratynsky)')) {
+    for (const panel of document.querySelectorAll('#study > .panel:not(#poems, #theses, #sources), #reading')) {
       const text = panel.textContent;
       const excerpt = hit(text, key);
       if (excerpt) {
-        const label = document.querySelector(`#tab-${panel.id}`)?.textContent || 'Учебные материалы';
-        add(label, excerpt, `#${panel.id}`, () => window.hrlStudy.openTab(panel.id));
+        const label = document.querySelector(`#tab-${panel.id}`)?.textContent || 'Дополнительная литература';
+        add(label, excerpt, `#${panel.id}`);
         count++;
       }
     }

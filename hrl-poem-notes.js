@@ -198,7 +198,7 @@
           added++;
         }
         if (write(all, status)) { render(); status.textContent = 'Добавлено заметок: ' + added + '.'; }
-      } catch { status.textContent = 'Не удалось загрузить файл заметок HRL.'; }
+      } catch { status.textContent = 'Не удалось загрузить файл заметок ИРЛ.'; }
     });
     actions.append(button('Добавить заметку', () => open()), button('Скачать заметки', backup), button('Загрузить заметки', () => file.click()));
     box.append(summary, make('p', 'Выделите строки для заметки к цитате или добавьте заметку ко всему стихотворению. Заметки хранятся на этом устройстве.', 'xcap'), actions, status, list, file, edit);
