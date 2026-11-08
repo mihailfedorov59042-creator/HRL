@@ -1,0 +1,46 @@
+:root {
+  --desk:#d9c79f; --leaf:#efe5cc; --paper:#e6d8b8; --ink:#3a2716;
+  --ink2:#614a30; --mute:#715936; --rule:#a88f60; --pop:#f5ecd8;
+  --accent:#8a2f24; --accent-soft:#ead2bd; --cov:#6e5218;
+  --f-disp:"Cormorant Garamond",Georgia,serif;
+  --f-body:"Old Standard TT",Georgia,serif;
+  --f-ui:system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark) {
+  :root:not([data-theme="light"]) {
+    --desk:#15110d; --leaf:#2a221a; --paper:#1d1712; --ink:#eadfc4;
+    --ink2:#bba986; --mute:#bba986; --rule:#5c4a34; --pop:#33281e;
+    --accent:#d86f58; --accent-soft:#3a1b14;
+  }
+}
+:root[data-theme="dark"] {
+  --desk:#15110d; --leaf:#2a221a; --paper:#1d1712; --ink:#eadfc4;
+  --ink2:#bba986; --mute:#bba986; --rule:#5c4a34; --pop:#33281e;
+  --accent:#d86f58; --accent-soft:#3a1b14;
+}
+#reader .rbar { background:var(--paper); }
+#reader .rbar .ib { flex:none; }
+#reader .rbar a.ib { text-decoration:none; }
+#reader .rtitle { text-transform:none; letter-spacing:.035em; }
+.hrl-study-button { border:1px solid var(--rule); border-radius:3px; }
+.hrl-dialog { max-width:min(850px,calc(100vw - 24px)); width:100%; max-height:calc(100dvh - 26px); overflow:auto; color:var(--ink); background:var(--leaf); border:1px solid var(--rule); padding:0; }
+.hrl-dialog::backdrop { background:#1d120c80; }
+.hrl-dialog header { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:12px 24px; border-bottom:1px solid var(--rule); background:var(--paper); position:sticky; top:0; z-index:1; }
+.hrl-dialog h2,.hrl-dialog h3 { font-family:var(--f-disp); margin:0; }
+.hrl-content { padding:24px; font:17px/1.5 var(--f-body); }
+.hrl-content > p:first-child { margin-top:0; color:var(--ink2); }
+.hrl-content .hrl-kicker { color:var(--accent); font:700 12px var(--f-ui); letter-spacing:.08em; text-transform:uppercase; }
+.hrl-map { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:20px 0; }
+.hrl-map section { border:1px solid var(--rule); padding:14px; }
+.hrl-map h3 { margin:.4em 0; }
+.hrl-content a { color:var(--accent); text-underline-offset:3px; }
+.hrl-content details { border-top:1px solid var(--rule); padding:12px 0; }
+.hrl-content summary { cursor:pointer; font-size:18px; font-weight:bold; }
+.hrl-content li { margin:.32em 0; }
+@media(max-width:620px){
+  .hrl-map { grid-template-columns:1fr; }
+  .hrl-content,.hrl-dialog header { padding:14px; }
+  #reader .rbar.top { gap:2px; padding-inline:4px; }
+  #reader .rbar.top .ib { padding-inline:5px; min-width:28px; font-size:12px; }
+  #reader .rtitle { font-size:12px; }
+}

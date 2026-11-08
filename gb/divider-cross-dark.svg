@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 32" width="320" height="32"><title>Разделитель с крестом</title>
+<path d="M14 14.6H136M14 17.4H136M184 14.6H306M184 17.4H306" stroke="#eadfc4" stroke-width="0.9"></path>
+<path d="M6 16L10 12L14 16L10 20Z M306 16L310 12L314 16L310 20Z" fill="#8a2f24" stroke="#eadfc4" stroke-width="0.8"></path>
+<circle cx="142" cy="16" r="1.6" fill="#eadfc4"></circle><circle cx="178" cy="16" r="1.6" fill="#eadfc4"></circle>
+<circle cx="148" cy="16" r="0.9" fill="#eadfc4"></circle><circle cx="172" cy="16" r="0.9" fill="#eadfc4"></circle>
+<g transform="translate(160 16) scale(0.42) translate(-32 -32)"><path d="M29.20 29.00Q27.00 18.00 20.00 6.00Q32.00 8.40 44.00 6.00Q37.00 18.00 34.80 29.00L35.00 29.20Q46.00 27.00 58.00 20.00Q55.60 32.00 58.00 44.00Q46.00 37.00 35.00 34.80L34.80 35.00Q37.00 46.00 44.00 58.00Q32.00 55.60 20.00 58.00Q27.00 46.00 29.20 35.00L29.00 34.80Q18.00 37.00 6.00 44.00Q8.40 32.00 6.00 20.00Q18.00 27.00 29.00 29.20Z" fill="#8a2f24" stroke="#eadfc4" stroke-width="2.4"></path><circle cx="32" cy="32" r="4.5" fill="#b8913f" stroke="#eadfc4" stroke-width="1.8"></circle></g>
+</svg>
