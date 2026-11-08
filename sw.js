@@ -1,5 +1,5 @@
 // Generated from the complete static release.
-const revision = "b3354da62cd9a4e1";
+const revision = "16e086d24022f163";
 const files = [
   "index.html",
   "manifest.webmanifest",
@@ -7,6 +7,8 @@ const files = [
   "pwa.css",
   "hrl.css",
   "hrl-search.js",
+  "hrl-barat-data.js",
+  "hrl-poem-notes.js",
   "gb/book.svg",
   "gb/candle.svg",
   "gb/corner-dark.svg",

@@ -43,9 +43,13 @@
     let count = 0;
     for (const poem of window.hrlStudy.poems) {
       const excerpt = hit(poem.text, key);
-      if (excerpt) { add(poem.title, excerpt, '#poems', () => window.hrlStudy.openPoem(poem.id)); count++; }
+      if (excerpt) { add(poem.title, excerpt, poem.href); count++; }
     }
-    for (const panel of document.querySelectorAll('main .panel:not(#poems)')) {
+    for (const thesis of window.hrlStudy.theses) {
+      const excerpt = hit(thesis.text, key) || hit(thesis.title, key);
+      if (excerpt) { add(thesis.title, excerpt, '#baratynsky/theses'); count++; }
+    }
+    for (const panel of document.querySelectorAll('main > .panel:not(#poems, #baratynsky)')) {
       const text = panel.textContent;
       const excerpt = hit(text, key);
       if (excerpt) {

@@ -1,5 +1,5 @@
 <!doctype html><html lang="ru"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
-<title>История русской литературы · Жуковский и Батюшков</title>
+<title>История русской литературы · Жуковский, Батюшков, Баратынский</title>
 <meta name="theme-color" content="#e6d8b8">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png">
@@ -345,11 +345,12 @@ footer { font-family: var(--body); font-style: italic; }
   <header class="masthead">
     <p class="label">История русской литературы · Элегическая школа</p>
     <span class="seal" aria-hidden="true"><img src="gb/book.svg" alt=""></span>
-    <h1>Жуковский <span class="amp">и</span> Батюшков</h1>
-    <p class="lede">Подготовка к практике: что пишут Грехнев, Семенко, Гинзбург и учебник, разборы двенадцати стихотворений, карточки понятий и тест. Номера страниц везде указаны по присланным изданиям.</p>
+    <h1>Жуковский, Батюшков <span class="amp">и</span> Баратынский</h1>
+    <p class="lede">Элегическая школа: стихи и разборы, тезисы исследователей и сравнение трех поэтов. Номера страниц указаны по использованным изданиям.</p>
     <div class="legend" aria-label="Обозначения">
       <span><i class="dot zh"></i>Жуковский</span>
       <span><i class="dot bat"></i>Батюшков</span>
+      <span><i class="dot bar"></i>Баратынский</span>
       <span><i class="dot common"></i>общее</span>
     </div>
   </header>
@@ -385,6 +386,7 @@ footer { font-family: var(--body); font-style: italic; }
   <section class="panel" id="sources" role="tabpanel" aria-label="Источники" hidden></section>
   <section class="panel" id="compare" role="tabpanel" aria-label="Сравнение" hidden></section>
   <section class="panel" id="poems" role="tabpanel" aria-label="Стихи" hidden></section>
+  <section class="panel" id="baratynsky" role="tabpanel" aria-label="Баратынский" hidden></section>
   <section class="panel" id="cards" role="tabpanel" aria-label="Карточки" hidden></section>
   <section class="panel" id="quiz" role="tabpanel" aria-label="Тест" hidden></section>
   <section class="panel" id="questions" role="tabpanel" aria-label="Вопросы к паре" hidden></section>
@@ -399,6 +401,8 @@ footer { font-family: var(--body); font-style: italic; }
   </footer>
 </div>
 
+<script src="./hrl-barat-data.js"></script>
+<script src="./hrl-poem-notes.js"></script>
 <script>
 (function () {
   "use strict";
@@ -409,7 +413,8 @@ footer { font-family: var(--body); font-style: italic; }
     { id: "overview", name: "Главное" },
     { id: "sources", name: "Источники" },
     { id: "compare", name: "Сравнение" },
-    { id: "poems", name: "Стихи", count: 13 },
+    { id: "poems", name: "Стихи" },
+    { id: "baratynsky", name: "Баратынский", count: 4 },
     { id: "cards", name: "Карточки" },
     { id: "quiz", name: "Тест" },
     { id: "questions", name: "Вопросы к паре" }
@@ -4304,7 +4309,8 @@ footer { font-family: var(--body); font-style: italic; }
     get(k, d) { try { const v = localStorage.getItem("zb." + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
     set(k, v) { try { localStorage.setItem("zb." + k, JSON.stringify(v)); } catch (e) { /* хранилище недоступно */ } }
   };
-  const POET = { zh: "Жуковский", bat: "Батюшков", common: "Общее" };
+  POEMS.push(...HRL_BARAT.poems);
+  const POET = { zh: "Жуковский", bat: "Батюшков", bar: "Баратынский", common: "Общее" };
   const dot = (tag) => el("i", { class: "dot " + tag, "aria-hidden": "true" });
 
   /* ---------- вкладки ---------- */
@@ -4319,6 +4325,7 @@ footer { font-family: var(--body); font-style: italic; }
       $("#" + t.id).hidden = !sel;
     }
     store.set("tab", id);
+    if (id === "baratynsky" && push) showBarat("works");
     if (push) { try { history.replaceState(null, "", "#" + id); } catch (e) {} }
   }
   TABS.forEach((t, i) => {
@@ -4382,8 +4389,19 @@ footer { font-family: var(--body); font-style: italic; }
   /* ---------- сравнение ---------- */
   (function renderCompare() {
     const p = $("#compare");
-    p.append(el("h2", { text: "Жуковский и Батюшков: сравнение" }),
-      el("p", { class: "intro", text: "Семенко называет их «почти антиподами» внутри одной школы (1975, с. 114). Таблица собрана по всем пяти источникам." }));
+    p.append(el("h2", { text: "Сравнение трех поэтов" }),
+      el("p", { class: "intro", text: "Выберите тему и откройте стихотворение, чтобы сверить наблюдение с текстом." }));
+    const tags = ["zh", "bat", "bar"];
+    const triple = el("div", {class:"compare hrl-triple", role:"table", "aria-label":"Жуковский, Батюшков и Баратынский"},
+      el("div", {class:"crow head", role:"row"}, el("span", {role:"columnheader", text:"Тема"}),
+        tags.map(tag => el("span", {role:"columnheader", class:tag, text:POET[tag]}))));
+    for (const [theme, ...cells] of HRL_BARAT.comparison) {
+      triple.append(el("div", {class:"crow", role:"row"}, el("div", {class:"param", role:"rowheader", text:theme}),
+        cells.map(([id, copy], i) => el("div", {class:"cell", role:"cell"},
+          el("span", {class:"tag " + tags[i]}, dot(tags[i]), POET[tags[i]]),
+          el("p", {text:copy}), poemLink(id, "К стихотворению")))));
+    }
+    p.append(triple);
     const t = el("div", { class: "compare", role: "table", "aria-label": "Сравнение Жуковского и Батюшкова" },
       el("div", { class: "crow head", role: "row" },
         el("span", { role: "columnheader", text: "Параметр" }),
@@ -4397,11 +4415,13 @@ footer { font-family: var(--body); font-style: italic; }
         el("div", { class: "cell", role: "cell" }, el("span", { class: "tag bat" }, dot("bat"), "Батюшков"), el("p", { text: bat }))
       ));
     }
-    p.append(t);
+    p.append(el("details", {class:"extra hrl-pair"}, el("summary", {text:"Подробно: Жуковский и Батюшков"}),
+      el("p", {class:"intro", text:"Семенко называет их «почти антиподами» внутри одной школы (1975, с. 114). Сравнение по пяти источникам."}), t));
   })();
 
   /* ---------- стихи ---------- */
   const poemView = el("div", { class: "panel", id: "poem-view" });
+  const baratPoemView = el("div", { class: "panel", id: "barat-poem-view" });
   const LETTER = /[А-Яа-яЁёA-Za-z\u0301]/;
   function findWord(s, term) {
     let i = s.indexOf(term);
@@ -4483,17 +4503,18 @@ const LEX = {"de":{"schweigend":["молча, безмолвно","шва́йг�
       const lead = raw.match(/^ */)[0].length;
       const t = el("span", { class: "t" }, glossLine(raw.trim(), pending));
       if (lead) t.style.paddingLeft = (1.1 + lead * 0.42) + "em";
-      box.append(el("div", { class: "vline" }, el("span", { class: "n", text: numbered && n % 5 === 0 ? String(n) : "" }), t));
+      const printed = typeof numbered === "object" ? numbered[n] : numbered && n % 5 === 0 ? n : null;
+      box.append(el("div", { class: "vline" }, el("span", { class: "n", text: printed ? String(printed) : "" }), t));
     }
     return box;
   }
-  function renderPoem(id) {
+  function renderPoem(id, target = poemView) {
     const P = POEMS.find(x => x.id === id) || POEMS[0];
-    store.set("poem", P.id);
-    document.querySelectorAll(".pbtn").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === P.id ? "true" : "false"));
-    poemView.replaceChildren();
+    store.set(P.poet === "bar" ? "barat-poem" : "poem", P.id);
+    target.closest("section")?.querySelectorAll(".pbtn").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === P.id ? "true" : "false"));
+    target.replaceChildren();
     const isFull = !!P.text.full;
-    poemView.append(el("header", { class: "poem-head" },
+    target.append(el("header", { class: "poem-head" },
       el("p", { class: "label " + P.poet, text: POET[P.poet] + " · " + P.year }),
       el("h2", { text: P.title }),
       el("p", { class: "meta", text: P.meta }),
@@ -4505,7 +4526,12 @@ const LEX = {"de":{"schweigend":["молча, безмолвно","шва́йг�
     if (P.text.epigraph) tc.append(el("div", {}, lexHint("la"), P.text.epigraph.map((l, i) => el("p", { class: "epigraph", lang: "la" }, lexLine(l, "la"))), P.text.epitr ? el("p", { class: "fragcap", text: P.text.epitr }) : null));
     if (isFull) {
       if (GLOSS[P.id]) tc.append(el("p", { class: "xcap", text: "Подчеркнутые слова можно нажать: появится пояснение." }));
-      tc.append(verseLines(P.text.full, true, GLOSS[P.id], P.text.start));
+      const mainVerse = verseLines(P.text.full, P.text.numbers || true, GLOSS[P.id], P.text.start);
+      tc.append(mainVerse);
+      tc.append(HRLPoemNotes.mount(P.id, mainVerse));
+      if (P.text.notes) tc.append(el("details", {class:"extra"},
+        el("summary", {text:"Примечания издания · " + P.text.notesPage}),
+        P.text.notes.map(note => el("p", {class:"authnote", text:note}))));
       if (P.text.date) tc.append(el("p", { class: "epigraph", text: P.text.date }));
       if (P.text.note) tc.append(el("details", { class: "extra" }, el("summary", { text: P.text.note.cap }), el("p", { class: "authnote", text: P.text.note.text })));
       for (const x of (P.text.extra || [])) {
@@ -4565,26 +4591,92 @@ const LEX = {"de":{"schweigend":["молча, безмолвно","шва́йг�
       el("summary", { text: "Все пояснения к тексту (" + GLOSS[P.id].length + ")" }),
       el("dl", {}, GLOSS[P.id].flatMap(([t, d]) => [el("dt", { text: t }), el("dd", { text: d })])))));
     if (P.critics.length) an.append(sec("Что пишут исследователи", el("ul", {}, P.critics.map(c => el("li", { text: c })))));
-    an.append(el("section", { class: "asec q" }, el("h3", { class: "label" }, el("img", { src: "gb/candle.svg", alt: "вопрос к тексту" }), "Вопросы на паре"), el("p", { class: "xcap", text: "Под каждым вопросом свернута подсказка: тезисы и возможный ответ." }), el("ol", { class: "qlist" }, P.questions.map((q, i) => el("li", {}, el("span", { text: q }), (ANS[P.id] || [])[i] ? el("details", { class: "qhint" }, el("summary", { text: "Подсказка и возможный ответ" }), el("ul", {}, ANS[P.id][i].map(t => el("li", { text: t })))) : null)))));
-    poemView.append(el("div", { class: "poem-body" }, tc, an));
+    an.append(el("section", { class: "asec q" }, el("h3", { class: "label" }, el("img", { src: "gb/candle.svg", alt: "" }), "Вопросы на паре"), ANS[P.id]?.length ? el("p", { class: "xcap", text: "Под вопросами свернуты подсказки." }) : null, el("ol", { class: "qlist" }, P.questions.map((q, i) => el("li", {}, el("span", { text: q }), (ANS[P.id] || [])[i] ? el("details", { class: "qhint" }, el("summary", { text: "Подсказка и возможный ответ" }), el("ul", {}, ANS[P.id][i].map(t => el("li", { text: t })))) : null)))));
+    target.append(el("div", { class: "poem-body" }, tc, an));
+  }
+  function poemHref(id) {
+    return POEMS.find(p => p.id === id)?.poet === "bar" ? "#baratynsky/" + id : "#poems/" + id;
+  }
+  function poemLink(id, label) {
+    return el("a", {class:"hrl-poem-link", href:poemHref(id), text:label || POEMS.find(p => p.id === id)?.title || id});
+  }
+  function pickerGroup(poet, view) {
+    return el("div", {class:"pgroup", "data-poet":poet},
+      el("p", {class:"label"}, dot(poet), POET[poet]),
+      el("div", {class:"plist"}, POEMS.filter(x => x.poet === poet).map(x =>
+        el("button", {class:"pbtn " + poet + "-b", "data-id":x.id, "aria-pressed":"false", onclick:() => {
+          openPoem(x.id);
+          view.scrollIntoView({block:"start"});
+        }}, el("span", {text:x.title.replace(" 1 января 1813 года", "")}), el("span", {class:"yr", text:x.year})))));
+  }
+  function filterAuthors(author) {
+    $("#poems").querySelectorAll("[data-author]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.author === author)));
+    $("#poems").querySelectorAll("[data-poet]").forEach(g => {g.hidden = author !== "all" && g.dataset.poet !== author;});
   }
   (function renderPoems() {
     const p = $("#poems");
     p.append(el("h2", { text: "Стихотворения" }));
-    const picker = el("div", { class: "picker" });
-    for (const poet of ["zh", "bat"]) {
-      picker.append(el("div", { class: "pgroup" },
-        el("p", { class: "label" }, dot(poet), POET[poet]),
-        el("div", { class: "plist" }, POEMS.filter(x => x.poet === poet).map(x =>
-          el("button", { class: "pbtn " + poet + "-b", "data-id": x.id, "aria-pressed": "false", onclick: () => { renderPoem(x.id); poemView.scrollIntoView({ behavior: "smooth", block: "start" }); } },
-            el("span", { text: x.title.replace(" 1 января 1813 года", "") }),
-            el("span", { class: "yr", text: x.year }))
-        ))
-      ));
+    const filters = el("div", {class:"filters", role:"group", "aria-label":"Выбор автора"});
+    for (const [id, name] of [["all","Оба автора"], ["zh",POET.zh], ["bat",POET.bat]]) {
+      filters.append(el("button", {class:"fbtn", "data-author":id, "aria-pressed":"false", text:name, onclick:() => {
+        filterAuthors(id);
+        if (id !== "all") {
+          const poem = POEMS.find(x => x.id === store.get("poem") && x.poet === id) || POEMS.find(x => x.poet === id);
+          renderPoem(poem.id);
+          history.replaceState(null, "", "#poems/" + id);
+        } else history.replaceState(null, "", "#poems");
+      }}));
     }
-    p.append(picker, poemView);
+    filters.append(el("a", {class:"fbtn hrl-poem-link", href:"#baratynsky", text:POET.bar}));
+    p.append(filters, el("div", {class:"picker"}, pickerGroup("zh", poemView), pickerGroup("bat", poemView)), poemView);
+    filterAuthors("all");
     renderPoem(store.get("poem", "kladbishche"));
   })();
+
+  const baratWorks = el("div", {id:"barat-works"});
+  const baratTheses = el("div", {id:"barat-theses", hidden:true});
+  function showBarat(view, id) {
+    baratWorks.hidden = view === "theses";
+    baratTheses.hidden = view !== "theses";
+    $("#baratynsky").querySelectorAll("[data-barat-view]").forEach(a => {
+      if (a.dataset.baratView === view) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+    if (view === "works" && (id || !baratPoemView.hasChildNodes())) renderPoem(id || store.get("barat-poem", HRL_BARAT.poems[0].id), baratPoemView);
+  }
+  (function renderBaratynsky() {
+    const p = $("#baratynsky");
+    p.append(el("h2", {text:"Евгений Баратынский"}),
+      el("p", {class:"intro", text:"Три ранние элегии и стихотворение 1830-х годов о целительной силе поэзии."}),
+      el("nav", {class:"filters hrl-author-nav", "aria-label":"Баратынский"},
+        el("a", {class:"fbtn hrl-poem-link", "data-barat-view":"works", href:"#baratynsky", text:"Произведения"}),
+        el("a", {class:"fbtn hrl-poem-link", "data-barat-view":"theses", href:"#baratynsky/theses", text:"Тезисы"}),
+        el("a", {class:"hrl-poem-link", href:"#compare", text:"Сравнить трех поэтов"})),
+      baratWorks, baratTheses);
+    baratWorks.append(el("details", {class:"extra hrl-edition"},
+      el("summary", {text:"О тексте и издании"}),
+      el("p", {class:"authnote", text:HRL_BARAT.edition}),
+      el("p", {class:"authnote", text:"Все четыре текста сверены с изображениями печатных страниц. Книга воспроизводит два последних прижизненных сборника — «Стихотворения» 1835 года и «Сумерки» 1842 года (см. пояснение составителя, с. 573–574). Эти четыре текста находятся в первой части; ранние редакции и разночтения вынесены в отдельные блоки. Номера страниц здесь печатные."})),
+      el("div", {class:"picker"}, pickerGroup("bar", baratPoemView)), baratPoemView);
+    for (const source of HRL_BARAT.theses) {
+      baratTheses.append(el("section", {class:"asec hrl-thesis-source"},
+        el("h3", {text:source.author}), el("p", {class:"intro", text:source.title}, " ", el("a", {class:"hrl-poem-link", href:source.url, target:"_blank", rel:"noopener", text:"Открыть источник"})),
+        source.items.map(([title, summary, refs]) => el("details", {class:"extra"},
+          el("summary", {text:title}), el("p", {text:summary}), el("ul", {}, refs.map(id => el("li", {}, poemLink(id))))))));
+    }
+  })();
+  function openPoem(id) {
+    const poem = POEMS.find(p => p.id === id);
+    if (!poem) return;
+    const tab = poem.poet === "bar" ? "baratynsky" : "poems";
+    showTab(tab, false);
+    if (tab === "baratynsky") showBarat("works", id);
+    else {
+      const pressed = $("#poems [data-author][aria-pressed=true]")?.dataset.author;
+      if (pressed !== "all") filterAuthors(poem.poet);
+      renderPoem(id);
+    }
+    history.replaceState(null, "", poemHref(id));
+  }
 
   /* ---------- карточки ---------- */
   (function renderCards() {
@@ -4690,14 +4782,35 @@ const LEX = {"de":{"schweigend":["молча, безмолвно","шва́йг�
   })();
 
   window.hrlStudy = {
-    poems: POEMS.map(p => ({id: p.id, title: p.title, text: JSON.stringify([p, GLOSS[p.id], ORIG[p.id], BIO[p.id], ANS[p.id]])})),
+    poems: POEMS.map(p => ({id: p.id, href:poemHref(p.id), title: p.title, text: JSON.stringify([p, GLOSS[p.id], ORIG[p.id], BIO[p.id], ANS[p.id]])})),
+    theses: HRL_BARAT.theses.flatMap(source => source.items.map(([title, summary]) => ({title: source.author + " · " + title, text:summary}))),
     openTab: id => showTab(id, true),
-    openPoem: id => {showTab('poems', true); renderPoem(id);}
+    openPoem
   };
   /* ---------- старт ---------- */
-  const start = (location.hash || "").slice(1) || store.get("tab", "overview");
-  showTab(start, false);
-  window.addEventListener("hashchange", () => showTab(location.hash.slice(1), false));
+  function followRoute() {
+    const [tab, sub] = (location.hash.slice(1) || store.get("tab", "overview")).split("/");
+    const poem = POEMS.find(p => p.id === sub);
+    if (poem && (tab === "baratynsky" || tab === "poems")) {openPoem(sub); return;}
+    showTab(tab, false);
+    if (tab === "baratynsky") showBarat(sub === "theses" ? "theses" : "works");
+    if (tab === "poems" && ["zh","bat"].includes(sub)) {
+      filterAuthors(sub);
+      const previous = POEMS.find(p => p.id === store.get("poem") && p.poet === sub);
+      renderPoem((previous || POEMS.find(p => p.poet === sub)).id);
+    }
+  }
+  followRoute();
+  window.addEventListener("hashchange", () => {
+    followRoute();
+    const [tab, sub] = location.hash.slice(1).split("/");
+    const poem = POEMS.find(p => p.id === sub);
+    if (poem && (tab === "baratynsky" || tab === "poems")) {
+      (poem.poet === "bar" ? baratPoemView : poemView).scrollIntoView({block:"start"});
+    } else if (TABS.some(t => t.id === tab)) {
+      window.scrollTo({top:0});
+    }
+  });
 })();
 </script>
 

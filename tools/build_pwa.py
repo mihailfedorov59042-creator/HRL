@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 root = Path(__file__).resolve().parent.parent
-files = ['index.html', 'manifest.webmanifest', 'pwa.js', 'pwa.css', 'hrl.css', 'hrl-search.js']
+files = ['index.html', 'manifest.webmanifest', 'pwa.js', 'pwa.css', 'hrl.css', 'hrl-search.js', 'hrl-barat-data.js', 'hrl-poem-notes.js']
 for folder in ('gb', 'icons', 'reader'):
     files.extend(p.relative_to(root).as_posix() for p in sorted((root / folder).rglob('*')) if p.is_file())
 digest = sha256()
