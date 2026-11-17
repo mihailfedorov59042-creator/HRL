@@ -44,6 +44,10 @@
       const excerpt = hit(poem.text, key);
       if (excerpt) { add(poem.title, excerpt, poem.href); count++; }
     }
+    for (const poem of window.PUSHKIN_DATA || []) {
+      const excerpt = hit([poem.title, ...poem.lines, ...poem.comments].join('\n'), key);
+      if (excerpt) { add('Пушкин · ' + poem.title, excerpt, './pushkin.html#poems/' + poem.id); count++; }
+    }
     for (const record of [...window.hrlStudy.theses, ...window.hrlStudy.sources]) {
       const excerpt = hit(record.text, key) || hit(record.title, key);
       if (excerpt) { add(record.title, excerpt, record.href); count++; }

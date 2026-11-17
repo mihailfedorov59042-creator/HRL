@@ -58,3 +58,6 @@
   .hrl-triple .crow.head{display:none}
   .hrl-triple .tag{display:inline-flex;align-items:center;gap:.25em}
 }
+
+.hrl-sections{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:620px){.hrl-sections{grid-template-columns:1fr}}
