@@ -1,5 +1,5 @@
 // Generated from the complete static release.
-const revision = "0cbf933f955d8c0e";
+const revision = "3ade9896ea780cd7";
 const files = [
   "index.html",
   "manifest.webmanifest",
